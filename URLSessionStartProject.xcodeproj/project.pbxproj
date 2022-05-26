@@ -20,6 +20,7 @@
 		8FE4B9202754A0A8005B617D /* EndpointClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE4B91F2754A0A8005B617D /* EndpointClient.swift */; };
 		8FE4B9222754A0EF005B617D /* EndpointClientError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE4B9212754A0EF005B617D /* EndpointClientError.swift */; };
 		8FE4B9242754A118005B617D /* ServerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE4B9232754A118005B617D /* ServerError.swift */; };
+		FFE4D302283A84DB000C60E8 /* Hash.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFE4D301283A84DA000C60E8 /* Hash.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,7 @@
 		8FE4B91F2754A0A8005B617D /* EndpointClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndpointClient.swift; sourceTree = "<group>"; };
 		8FE4B9212754A0EF005B617D /* EndpointClientError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndpointClientError.swift; sourceTree = "<group>"; };
 		8FE4B9232754A118005B617D /* ServerError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerError.swift; sourceTree = "<group>"; };
+		FFE4D301283A84DA000C60E8 /* Hash.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hash.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,6 +86,7 @@
 				8F7518EE27549D65001F05F2 /* Assets.xcassets */,
 				8F7518F027549D65001F05F2 /* LaunchScreen.storyboard */,
 				8F7518F327549D65001F05F2 /* Info.plist */,
+				FFE4D301283A84DA000C60E8 /* Hash.swift */,
 			);
 			path = URLSessionStartProject;
 			sourceTree = "<group>";
@@ -159,6 +162,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FFE4D302283A84DB000C60E8 /* Hash.swift in Sources */,
 				8F7518EA27549D62001F05F2 /* ViewController.swift in Sources */,
 				8F7518E627549D62001F05F2 /* AppDelegate.swift in Sources */,
 				8FE4B91E2754A080005B617D /* RESTClient.swift in Sources */,

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CommonCrypto
 
 class ViewController: UIViewController {
 
@@ -34,24 +35,44 @@ class ViewController: UIViewController {
         
         endpointClient.executeRequest(endpoint, completion: completion)
     }
-
-
+    
+    
 }
 
 final class GetNameEndpoint: ObjectResponseEndpoint<String> {
     
     override var method: RESTClient.RequestType { return .get }
-    override var path: String { "/v1/cards" }
-//    override var queryItems: [URLQueryItem(name: "id", value: "1")]?
+    override var path: String { "v1/public/comics" }
+    private let publicKey = "b77533b1ffc2ecba82522b696a9b5e4c"
+    private let privateKey = "452d90f59d30f3245861743b5310c4b2c58bce44"
+    static var ts = 3
     
     override init() {
         super.init()
 
-        queryItems = [URLQueryItem(name: "name", value: "Black Lotus")]
+        queryItems = [URLQueryItem(name: "ts", value: "\(GetNameEndpoint.ts)"),
+                      URLQueryItem(name: "apikey", value: publicKey),
+                      URLQueryItem(name: "hash", value: md5("\(GetNameEndpoint.ts)\(privateKey)\(publicKey)"))
+        ]
     }
     
-}
+    private func md5(_ string: String) -> String {
+        
+        let length = Int(CC_MD5_DIGEST_LENGTH)
+        var digest = [UInt8](repeating: 0, count: length)
 
+        if let d = string.data(using: String.Encoding.utf8) {
+            _ = d.withUnsafeBytes { (body: UnsafePointer<UInt8>) in
+                CC_MD5(body, CC_LONG(d.count), &digest)
+            }
+        }
+
+        return (0..<length).reduce("") {
+            $0 + String(format: "%02x", digest[$1])
+        }
+        
+    }
+}
 
 
 
