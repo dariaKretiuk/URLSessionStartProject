@@ -1,10 +1,3 @@
-//
-//  EndpointClientError.swift
-//  URLSessionStartProject
-//
-//  Created by Alexey Pavlov on 29/11/21.
-//
-
 import Foundation
 
 public enum EndpointClientError: Error {
@@ -28,7 +21,7 @@ extension EndpointClientError: LocalizedError {
     }
 }
 
-/// MARK: - Equatable
+// MARK: - Equatable
 
 extension EndpointClientError: Equatable {
     public static func == (lhs: EndpointClientError, rhs: EndpointClientError) -> Bool {

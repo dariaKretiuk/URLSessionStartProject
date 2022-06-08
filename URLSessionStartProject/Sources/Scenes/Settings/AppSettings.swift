@@ -1,10 +1,3 @@
-//
-//  AppSettings.swift
-//  URLSessionStartProject
-//
-//  Created by Alexey Pavlov on 29/11/21.
-//
-
 import Foundation
 
 public final class ApplicationSettingsService {
@@ -59,9 +52,4 @@ public final class ApplicationSettingsService {
     // MARK: - Private Properties
 
     private let passwordLock = NSLock()
-    
-    // MARK: - Initialization
-    
-    // MARK: - Public
-  
 }

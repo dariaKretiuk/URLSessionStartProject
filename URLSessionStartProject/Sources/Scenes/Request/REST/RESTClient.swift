@@ -1,13 +1,5 @@
-//
-//  RESTClient.swift
-//  URLSessionStartProject
-//
-//  Created by Alexey Pavlov on 29/11/21.
-//
-
 import Foundation
 
-/// Запрашивает данные с наших серверов
 public final class RESTClient {
     
     // MARK: - Types
@@ -27,16 +19,14 @@ public final class RESTClient {
 
     public static func call(request: URLRequest, session: URLSession?, completion handler: @escaping ResultCompletionHandler) {
         
-        
-        
         let completionHandler: SessionCompletionHandler = { data, response, error in
+            
             guard let httpResponse = response as? HTTPURLResponse else {
                 handler(ResponseResult.failure(ServerError.networkProblem))
                 return
             }
-            
             switch httpResponse.statusCode {
-            case 200:   // по документации - 200 единственный статус, при котором ответ считается успешным
+            case 200:
                 handler(ResponseResult.success(data, httpResponse))
             case 500:
                 handler(ResponseResult.failure(ServerError.serverFail))
@@ -45,17 +35,12 @@ public final class RESTClient {
                     let errorTuple = (error.code, error.localizedDescription)
                     handler(ResponseResult.failure(ServerError.invalidRequest(errorTuple)))
                 }
-                if let data = data {
-                    // handle data
+                if data != nil {
                 } else {
                     handler(ResponseResult.failure(ServerError.serverFail))
                 }
             }
         }
-        
-        
-        
-        
         self.resumeDataTask(with: request, session: session, completionHandler: completionHandler)
     }
     
@@ -65,9 +50,6 @@ public final class RESTClient {
     {
         (session ?? URLSession.shared)
             .dataTask(with: request, completionHandler: completionHandler).resume()
-
-//        URLSession.shared.uploadTask(with: request, from: Data()) // POST, PUT
-//        (session ?? URLSession.shared).downloadTask(with: request, completionHandler: completionHandler).resume()
     }
 }
 

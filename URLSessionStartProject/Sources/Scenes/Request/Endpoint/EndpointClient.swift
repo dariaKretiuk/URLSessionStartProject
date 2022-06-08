@@ -1,10 +1,3 @@
-//
-//  EndpointClient.swift
-//  URLSessionStartProject
-//
-//  Created by Alexey Pavlov on 29/11/21.
-//
-
 import Foundation
 
 public enum ResponseResult<Data, Response: HTTPURLResponse, Error> {
@@ -17,7 +10,6 @@ public enum PureResult<E> {
     case failure(E)
 }
 
-
 public final class EndpointClient {
 
     // MARK: - Types
@@ -28,8 +20,7 @@ public final class EndpointClient {
     // MARK: - Private Properties
 
     private let applicationSettings: ApplicationSettingsService
-    private var masterServerURL: String { "https://gateway.marvel.com" } // адрес сервера
-//    private var masterServerURL: String { "http://localhost:5055" }
+    private var masterServerURL: String { "https://gateway.marvel.com" }
 
     // MARK: - Initialization
 
@@ -53,14 +44,12 @@ public final class EndpointClient {
                 body = String(data: data, encoding: .utf8)
             }
         }
-
         var urlSession: URLSession?
+        
         if let requestTimeout = endpoint.timeout {
             urlSession = makeUrlSessionWithTimeout(requestTimeout)
         }
-
         let completionHandler = objectResponseCompletionHandler(completion: completion)
-
         executeRequest(method: endpoint.method,
                        requestUrl: requestURL,
                        headers: endpoint.httpHeaders,
@@ -104,30 +93,32 @@ public final class EndpointClient {
             return nil
         }
         let requestURL: URL
+        
         if path.isEmpty {
             requestURL = baseURL
         } else {
             requestURL = baseURL.appendingPathComponent(path)
         }
+        
         if let queryItems = queryItems {
             var urlComponents = URLComponents(string: requestURL.absoluteString) // "https://api.magicthegathering.io/v1/cards?name=Black%20Lotus"
             urlComponents?.queryItems = queryItems
+            
             guard let newRequestURL = urlComponents?.url else {
                 return nil
             }
             return newRequestURL
         }
-        
         return requestURL
     }
 
     private func makeUrlSessionWithTimeout(_ timeout: TimeInterval) -> URLSession {
         let configuration = URLSessionConfiguration.default
-        configuration.allowsCellularAccess = true // Разрешать доступ с мобильной связи
-        configuration.waitsForConnectivity = true // Должны ли ждать подключение если в момент оно не доступно (например впн нужен)
-        configuration.timeoutIntervalForRequest = timeout // Таймаут запроса
-        configuration.httpMaximumConnectionsPerHost = 100 // Максимальное количество подключений одновременно к хосту
-        configuration.urlCache = URLCache() // Кэш URL для предоставления кэшированных ответов на запросы в рамках сеанса.
+        configuration.allowsCellularAccess = true
+        configuration.waitsForConnectivity = true
+        configuration.timeoutIntervalForRequest = timeout
+        configuration.httpMaximumConnectionsPerHost = 100
+        configuration.urlCache = URLCache()
         return URLSession(configuration: configuration)
     }
 
@@ -188,7 +179,7 @@ public final class EndpointClient {
         headers: [String: String]?,
         body: String?
         ) -> URLRequest {
-        var request = URLRequest(url: url) // уже содержит query items
+        var request = URLRequest(url: url)
         request.httpMethod = method.rawValue
         request.allHTTPHeaderFields = headers
         request.httpBody = body?.data(using: String.Encoding.utf8)
@@ -201,7 +192,6 @@ public final class EndpointClient {
     {
         guard let data = data else { throw EndpointClientError.noParsingData }
         do {
-            print("data = \(String(describing: (String(data: data, encoding: .utf8))))")
             return try decoder.decode(D.self, from: data)
         } catch {
             throw error
@@ -225,8 +215,6 @@ extension JSONDecoder {
 
 extension JSONDecoder.DateDecodingStrategy {
     
-    /// Переменная хранит в себе политику распознавания дат, которые приходят от WebApi
-    /// - "yyyy-MM-dd HH:mm:ssZ" - полный формат даты (с часовым поясом)
     static var webApiCustomDateDecodingStrategy: JSONDecoder.DateDecodingStrategy {
         return JSONDecoder.DateDecodingStrategy.custom { decoder -> Date in
             let container = try decoder.singleValueContainer()
